@@ -1,4 +1,4 @@
-# github-actions
+# GitHub Actions Series: From Basics to Advanced
 
 ## Day1: Introduction to GitHub Actions
 
