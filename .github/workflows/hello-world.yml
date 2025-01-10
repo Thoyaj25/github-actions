@@ -7,7 +7,7 @@ on:
 
 jobs:
   say-hello:
-    runs-on: ubuntu-latest
+    runs-on: test-runner
     steps:
       - name: Print a message
         run: echo "Hello, Github Actions"
