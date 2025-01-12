@@ -9,7 +9,7 @@ on:
 jobs:
   ansible-lint:
     runs-on:
-      - ubuntu-latest
+      - self-hosted
 
     steps:
     - name: Checkout Code
