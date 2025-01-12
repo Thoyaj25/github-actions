@@ -1,4 +1,4 @@
-name: Ansible lint checker for push and pull request
+name: Ansible Lint checker for Push and Pull Events
 
 on:
   push:
@@ -7,80 +7,67 @@ on:
       - '*'
 
 jobs:
-   ansible-lint:
-     runs-on:
-       - self-hosted
+  ansible-lint:
+    runs-on:
+      - ubuntu-latest
 
-     steps:
-     - name: checkout code
-       uses: actions/checkout@v3
-       with:
-         token: ${{ github.token }}
-         fetch-depth: 0
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+      with:
+        token: ${{ github.token }}
+        fetch-depth: 0
 
-     - name: Get modified file for pull request
-       id: get-changed-files-pull
-       if: github.event_name == 'pull_request'
-       run: |
-         git fetch origin
-         if [ -n "${{ github.event.pull_request.base.sha }}" ]; then
-           CHANGED_FILES=$_git diff --diff-filter=AM --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.sh }}"
-           echo "changed files: $CHANGED_FILES"
-           CHANGED_FILES_STR=$(echo "$CHANGED_FILES | tr '\n' ' ')
-           echo "CHANGED_FILES_STR=$CHANGED_FILES_STR" >> $GITHUB_ENV
-         else
-           echo "No Commit available . skipping linting step"
-         fi
-
-     - name: Get modified files for push event
-       id: get-changed-files
-       run: |
-        if [ -n "${{ github.event.before }}" ]; then
-          CHANGED_FILES=$(git diff --diff-filter=AM --name-only ${{ github.event.before }} ${{ github.sha }})
-          echo "changed files: $CHANGED_FILES"
-          CHANGED_FILES_STR=$(echo "$CHANGED_FILES | tr '\n' ' ')
+    - name: Get Modified Files for Pull Request Event
+      id: get-changed-files-pull
+      if: github.event_name == 'pull_request'
+      run: |
+        git fetch origin
+        if [ -n "${{ github.event.pull_request.base.sha }}" ]; then
+          CHANGED_FILES=$(git diff --diff-filter=AM --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.sha }}")
+          echo "Changed files: $CHANGED_FILES"
+          CHANGED_FILES_STR=$(echo "$CHANGED_FILES" | tr '\n' ' ')
+          echo "CHANGED_FILES_STR=$CHANGED_FILES_STR" >> $GITHUB_ENV
         else
-          echo "No commit available. skipping linting step."
+          echo "No previous commit available. Skipping linting step."
         fi
 
-     - name: Segregate YAML files
-       id: segregate-files
-       run: |
-         YAML_FILES=""
-         IFS=' ' read -ra CHANGED_FILES << "$CHANGED_FILES_STR}"
-         for file in "${CHANGED_FILES[@]}"; do
-           if [[ $file == *\.yml || $file == *\.yaml ]]; then
-              YAML_FILES="$YAML_FILES $file"
-           fi
-         done
-         echo "Segregated YAML FILES: $YAML_FILES"
-         echo "yaml-files=$YAML_FILES" >> $GITHUB_OUTPUT
+    - name: Get Modified Files for Push Event
+      id: get-changed-files      
+      run: |
+        if [ -n "${{ github.event.before }}" ]; then
+          CHANGED_FILES=$(git diff --diff-filter=AM --name-only ${{ github.event.before }} ${{ github.sha }})
+          echo "Changed files: $CHANGED_FILES"
+          CHANGED_FILES_STR=$(echo "$CHANGED_FILES" | tr '\n' ' ')
+          echo "CHANGED_FILES_STR=$CHANGED_FILES_STR" >> $GITHUB_ENV
+        else
+          echo "No previous commit available. Skipping linting step."
+        fi
 
-     - name: Scan Ansible playbooks
-       run: |
-          YAML_FILES=${{ steps.segregate-files.outputs.yaml-files }}"
-          if [ -n "$YAML_FILES" ]; then
-             ansible-lint $YAML_FILES
-          else
-            echo "No YAML/YML files found, skipping ansible lint"
+    - name: Segregate YAML Files
+      id: segregate-files
+      run: |
+        YAML_FILES=""
+        IFS=' ' read -ra CHANGED_FILES <<< "${CHANGED_FILES_STR}"
+        for file in "${CHANGED_FILES[@]}"; do
+          if [[ $file == *\.yml || $file == *\.yaml ]]; then
+            YAML_FILES="$YAML_FILES $file"
           fi
+        done
+        echo "Segregated YAML Files: $YAML_FILES"
+        echo "yaml-files=$YAML_FILES" >> $GITHUB_OUTPUT
 
-     - name: No files found
-       run: |
-          if [ -z "$YAML_FILES" ]; then
-            echo "No YAML files found in the commit"
-          fi
+    - name: Scan Ansible Playbooks
+      run: |
+        YAML_FILES="${{ steps.segregate-files.outputs.yaml-files }}"
+        if [ -n "$YAML_FILES" ]; then
+          ansible-lint $YAML_FILES
+        else
+          echo "No YAML/YML files found. Skipping Ansible Lint."
+        fi
 
-
-
-     
-     
-
-
-
-
-
-
-
-       
-       
+    - name: No Files Found
+      run: |
+        if [ -z "$YAML_FILES" ]; then
+          echo "No YAML/YML files found in the commit."
+        fi
