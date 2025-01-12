@@ -15,4 +15,9 @@
 ## Day3: Setting Up a Self-Hosted Runner for GitHub Actions
 		
 1. What is a self-hosted runner, and why use one?
-2. Step-by-step guide to configure and run workflows on it. 
+2. Step-by-step guide to configure and run workflows on it.
+
+## Day4: Ansible Lint Integration
+
+1. Automate linting for Ansible playbooks.
+2. Show how to set up ansible-lint in workflows and resolve issues.
