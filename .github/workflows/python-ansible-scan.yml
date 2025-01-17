@@ -84,7 +84,7 @@ jobs:
       run: |
         PYTHON_FILES="${{ steps.segregate-files.outputs.python-files }}"
         if [ -n "$PYTHON_FILES" ]; then
-          bandit -r $PTYHON_FILES
+          bandit -r $PYTHON_FILES
         else
           echo "No python files found, skipping bandit scan"
         fi
