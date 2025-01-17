@@ -21,3 +21,8 @@
 
 1. Automate linting for Ansible playbooks.
 2. Show how to set up ansible-lint in workflows and resolve issues.
+
+## Day5: Pylint & Bandit for Python Security Scanning
+
+1. Integrate Bandit to detect security vulnerabilities in Python code.
+2. Automate security scanning in CI pipelines.
