@@ -54,7 +54,7 @@ jobs:
           if [[ $file == *\.yml || $file == *\.yaml ]]; then
             YAML_FILES="$YAML_FILES $file"
           elif [[ $file == *\.py ]]; then
-            PYTHON_FILES="$PYTHON_FILES $file
+            PYTHON_FILES="$PYTHON_FILES $file"
           fi
         done
         echo "Segregated YAML Files: $YAML_FILES"
