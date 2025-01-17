@@ -73,7 +73,7 @@ jobs:
 
     - name: Scan python code using pylint
       run: |
-        PYTHON_FILES=${{ steps.segregate-files.outputs.python-files }}"
+        PYTHON_FILES="${{ steps.segregate-files.outputs.python-files }}"
         if [ -n "$PYTHON_FILES" ]; then
           pylint $PYTHON_FILES
         else
