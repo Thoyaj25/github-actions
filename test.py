@@ -1,2 +1,2 @@
 import os
-print('test1234')
+print('test')
