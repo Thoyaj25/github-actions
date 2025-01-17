@@ -1,4 +1,4 @@
-name: Ansible Lint checker for Push and Pull Events
+name: Ansible & Python Lint & security checker for Push and Pull Events
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
       - '*'
 
 jobs:
-  ansible-lint:
+  ansible-python-scan:
     runs-on:
       - self-hosted
 
