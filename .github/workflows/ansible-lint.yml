@@ -44,18 +44,23 @@ jobs:
           echo "No previous commit available. Skipping linting step."
         fi
 
-    - name: Segregate YAML Files
+    - name: Segregate YAML & PYTHON Files
       id: segregate-files
       run: |
         YAML_FILES=""
+        PYTHON_FILES=""
         IFS=' ' read -ra CHANGED_FILES <<< "${CHANGED_FILES_STR}"
         for file in "${CHANGED_FILES[@]}"; do
           if [[ $file == *\.yml || $file == *\.yaml ]]; then
             YAML_FILES="$YAML_FILES $file"
+          elif [[ $file == *\.py ]]; then
+            PYTHON_FILES="$PYTHON_FILES $file
           fi
         done
         echo "Segregated YAML Files: $YAML_FILES"
+        echo "Segregated PYTHON files: $PYTHON_FILES"
         echo "yaml-files=$YAML_FILES" >> $GITHUB_OUTPUT
+        echo "python-files=$PYTHON_FILES" >> $GITHUB_OUTPUT
 
     - name: Scan Ansible Playbooks
       run: |
@@ -64,6 +69,15 @@ jobs:
           ansible-lint $YAML_FILES
         else
           echo "No YAML/YML files found. Skipping Ansible Lint."
+        fi
+
+    - name: Scan python code using pylint
+      run: |
+        PYTHON_FILES=${{ steps.segregate-files.outputs.python-files }}"
+        if [ -n "$PYTHON_FILES" ]; then
+          pylint $PYTHON_FILES
+        else
+          echo "No python files found, skipping linting of python code"
         fi
 
     - name: No Files Found
