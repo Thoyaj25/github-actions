@@ -26,3 +26,5 @@
 
 1. Integrate Bandit to detect security vulnerabilities in Python code.
 2. Automate security scanning in CI pipelines.
+
+## Day6: Caching Dependencies for Faster Builds
