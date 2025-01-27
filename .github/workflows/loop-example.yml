@@ -24,7 +24,8 @@ jobs:
         
     - name: Print Greetings
       run: |
-        for name in Sam Alice bob
+        NAMES="Sam Alice bob"
+        for name in $NAMES
         do
           echo "Hello $name"
         done
