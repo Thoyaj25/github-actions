@@ -29,6 +29,14 @@
 
 ## Day6: Caching Dependencies for Faster Builds
 
+1. Understanding Caching in GitHub Actions
+2. Set Up Caching for Python Dependencies
+
 ## Day7: Branch Specific Workflows
 
+1. Branch Filtering with on.push and on.pull_request
+2. Use Cases for Branch-Specific Workflows
+
 ## Day8: Conditional in github actions
+
+1. Using if for Conditional Workflow Steps
