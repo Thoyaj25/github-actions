@@ -28,3 +28,7 @@
 2. Automate security scanning in CI pipelines.
 
 ## Day6: Caching Dependencies for Faster Builds
+
+## Day7: Branch Specific Workflows
+
+## Day8: Conditional in github actions
