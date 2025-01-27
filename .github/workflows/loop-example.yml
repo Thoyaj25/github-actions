@@ -1,0 +1,16 @@
+name: loop example
+
+on:
+  push
+
+jobs:
+  greet-people:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Print Greetings
+      run: |
+        for name in Sam Alice bob
+        do
+          echo "Hello $name"
+        done
