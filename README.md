@@ -40,3 +40,7 @@
 ## Day8: Conditional in github actions
 
 1. Using if for Conditional Workflow Steps
+
+## Day9: Loops in github action
+
+## Day10: Matrix Builds in GitHub Actions
