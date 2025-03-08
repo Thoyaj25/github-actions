@@ -1,6 +1,6 @@
-- name: test PB
+- name: Test PB
   hosts: localhost
   tasks:
-  - name: test task
+  - name: Test task
     ansible.builtin.debug:
        msg: "testing github action workflow"
