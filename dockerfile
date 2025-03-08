@@ -1,8 +1,3 @@
-FROM debian:buster
+FROM ubuntu:18.04
  
- # Install outdated packages with known vulnerabilities
- RUN apt-get update && apt-get install -y \
-     openssl \
-     wget \
-     curl \
-     && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y
