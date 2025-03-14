@@ -1,7 +1,4 @@
-FROM debian:buster
- 
-RUN apt-get update && apt-get install -y \
-     openssl \
-     wget \
-     curl \
-     && rm -rf /var/lib/apt/lists/*
+FROM ubuntu:18.04
+
+
+RUN apt-get update && apt-get install -y
