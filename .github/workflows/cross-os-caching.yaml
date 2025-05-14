@@ -1,0 +1,42 @@
+name: Cache Demo Cross OS
+
+on: [push]
+
+jobs:
+  build-on-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create dummy file
+        run: |
+          mkdir cache-folder
+          echo "Hello from Windows" > cache-folder/message.txt
+
+      - name: Cache data
+        uses: actions/cache@v4
+        with:
+          path: cache-folder
+          key: cross-runner-cache-key
+
+  use-on-linux:
+    needs: build-on-windows
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Try to restore cache
+        uses: actions/cache@v4
+        with:
+          path: cache-folder
+          key: cross-runner-cache-key
+
+      - name: Show contents
+        run: |
+          if [ -f cache-folder/message.txt ]; then
+            cat cache-folder/message.txt
+          else
+            echo "Cache not found or empty"
+          fi
