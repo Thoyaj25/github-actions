@@ -3,4 +3,4 @@
   tasks:
    - name: Test task
      ansible.builtin.debug:
-      msg: "testing github action workflow111"
+      msg: "testing github action workflow using kics"
